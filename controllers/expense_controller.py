@@ -86,23 +86,15 @@ def get_expenses_logic(filters):
     try:
         query = db.session.query(Expense)
 
-        # Apply filters if they exist
-        if filters.get("day"):
-            query = query.filter(
-                extract("day", Expense.timestamp) == int(filters["day"])
-            )
-        if filters.get("month"):
-            query = query.filter(
-                extract("month", Expense.timestamp) == int(filters["month"])
-            )
-        if filters.get("year"):
-            query = query.filter(
-                extract("year", Expense.timestamp) == int(filters["year"])
-            )
+        if filters.get("startDate") and filters.get("endDate"):
+            start_date_str = filters["startDate"]
+            end_date_str = filters["endDate"]
+            start_date = datetime.fromisoformat(start_date_str.replace("Z", "+00:00"))
+            end_date = datetime.fromisoformat(end_date_str.replace("Z", "+00:00"))
+            query = query.filter(Expense.timestamp.between(start_date, end_date))
 
         expenses = query.all()
 
-        # Convert the expense objects to a list of dictionaries for JSON serialization
         expense_list = []
         for expense in expenses:
             location_name = get_location_name(expense.latitude, expense.longitude)
