@@ -5,6 +5,7 @@ from ..controllers.expense_controller import add_expense_logic, get_expenses_log
 expense_blueprint = Blueprint("expenses", __name__)
 
 
+# Added two apis
 @expense_blueprint.route("/expenses", methods=["POST"])
 def add_expense_route():
     """
