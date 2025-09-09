@@ -2,8 +2,8 @@ import os
 from flask import Flask
 from flask_cors import CORS
 from dotenv import load_dotenv
-from .routes.expense_routes import expense_blueprint
-from .database.database import db
+from routes.expense_routes import expense_blueprint
+from database.database import db
 
 # Load environment variables from a .env file at the project root
 load_dotenv()

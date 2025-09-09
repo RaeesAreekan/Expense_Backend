@@ -1,5 +1,5 @@
-from ..database.database import db
-from ..models.expense import Expense
+from database.database import db
+from models.expense import Expense
 from flask import jsonify
 from datetime import datetime
 from sqlalchemy import extract
@@ -113,4 +113,27 @@ def get_expenses_logic(filters):
 
     except Exception as e:
         print(f"Error fetching expenses: {e}")
+        return jsonify({"error": "An internal server error occurred."}), 500
+
+
+def delete_expenses_logic(ids):
+    """
+    Deletes expenses based on a list of IDs.
+    """
+    if not ids or not isinstance(ids, list):
+        return jsonify({"error": "Invalid or empty list of IDs provided."}), 400
+
+    try:
+        deleted_count = (
+            db.session.query(Expense)
+            .filter(Expense.id.in_(ids))
+            .delete(synchronize_session="fetch")
+        )
+        db.session.commit()
+        return (
+            jsonify({"message": f"{deleted_count} expenses deleted successfully."}),
+            200,
+        )
+    except Exception as e:
+        print(f"Error deleting expenses: {e}")
         return jsonify({"error": "An internal server error occurred."}), 500

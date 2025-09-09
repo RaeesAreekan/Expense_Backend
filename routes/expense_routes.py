@@ -1,5 +1,9 @@
 from flask import Blueprint, request
-from ..controllers.expense_controller import add_expense_logic, get_expenses_logic
+from controllers.expense_controller import (
+    add_expense_logic,
+    get_expenses_logic,
+    delete_expenses_logic,
+)
 
 # Create a Blueprint, which is a way to organize a group of related routes.
 expense_blueprint = Blueprint("expenses", __name__)
@@ -23,3 +27,13 @@ def get_expenses_route():
     """
     filters = request.args.to_dict()
     return get_expenses_logic(filters)
+
+
+@expense_blueprint.route("/expenses", methods=["DELETE"])
+def delete_expenses_route():
+    """
+    API endpoint to delete expenses based on a list of IDs.
+    """
+    data = request.get_json()
+    ids = data.get("ids", [])
+    return delete_expenses_logic(ids)
