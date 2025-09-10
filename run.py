@@ -1,5 +1,5 @@
-from .app import create_app
-from .database.database import db
+from app import create_app
+from database.database import db
 
 # Create the app instance.
 app = create_app()

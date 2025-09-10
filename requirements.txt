@@ -1,5 +1,8 @@
-Flask
-Flask-SQLAlchemy
-pymysql  
-psycopg2-binary
-flask-cors
+Flask==3.1.1
+Flask-SQLAlchemy==3.1.1
+pymysql==1.1.1
+psycopg2-binary==2.9.10
+flask-cors==6.0.1
+gunicorn==22.0.0
+python-dotenv==1.0.1
+geopy==2.4.1
