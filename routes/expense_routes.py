@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 from controllers.expense_controller import (
     add_expense_logic,
     get_expenses_logic,
@@ -7,6 +7,15 @@ from controllers.expense_controller import (
 
 # Create a Blueprint, which is a way to organize a group of related routes.
 expense_blueprint = Blueprint("expenses", __name__)
+
+
+@expense_blueprint.route("/", methods=["GET"])
+def health_check():
+    """
+    A simple health check endpoint to confirm the API is running.
+    This will be accessible at the root of the blueprint (e.g., /api/).
+    """
+    return jsonify({"status": "ok", "message": "Expense App API is running."}), 200
 
 
 # Added two apis
